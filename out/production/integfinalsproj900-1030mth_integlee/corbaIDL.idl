@@ -1,0 +1,83 @@
+module boggledApp {
+    exception usernameAlreadyExistsException {
+        string msg;
+    };
+    exception userAlreadyLogInException {
+        string msg;
+    };
+    exception invalidCredentialsException {
+        string msg;
+    };
+    exception bannedAccountException{
+        string msg;
+    };
+    exception sameWordException {
+        string msg;
+    };
+    exception roomDoesntExistException {
+        string msg;
+    };
+    exception forcedLogOutException {
+        string msg;
+    };
+    exception failedLogOutException {
+            string msg;
+        };
+     exception invalidWordException {
+     string msg;
+     };
+     exception outOfTimeException{
+     string msg;
+     };
+     exception tieScoreException{
+     string msg;
+     };
+
+
+typedef sequence<string> StringSequence;
+typedef sequence<long> LongSequence;
+
+    interface Boggled {
+        boolean register(in string username, in string password) raises (usernameAlreadyExistsException);
+        boolean login(in string username, in string password) raises (userAlreadyLogInException, invalidCredentialsException,bannedAccountException);
+        boolean verifyWord(in long roomID,in string word,in string username) raises (invalidWordException);
+        long getPlayerScore(in string username, in long earnedPts);
+        long calculateScore(in long earnedPts);
+        long pointsPerWord(in string word);
+        StringSequence createGameSinglePlayer();
+        LongSequence createGameMultiPlayer(in string username);
+        StringSequence getCharacters(in long roomID);
+        boolean leaveRoom(in long roomID, in wstring username);
+        boolean cancelRoom(in long roomID);
+        StringSequence startGame();
+        void endGame();
+        void playerLeft();
+        StringSequence showListOfRooms();
+        long inputRoom(in long roomId,in string username) raises (roomDoesntExistException);
+        void playerJoined(in string username);
+        long getPlayerAvatar(in string username);
+        boolean updatePlayerAvatar(in string username,in long avatar);
+        boolean updateCredential(in string username, in string password);
+        StringSequence getLeaderboard();
+        void submitPts(in string username, in long pts);
+        boolean deleteUser(in string username);
+        boolean logout(in string username) raises (failedLogOutException);
+        void closeRoom(in long roomID) raises (roomDoesntExistException);
+        long getHighScore(in string username);
+        long setHighScore(in string username, in long score);
+        long setTime();
+        long setTotalScore(in string username, in long score, in long roomID);
+        StringSequence getCurrentGameLeaderboards(in long roomID);
+        boolean checkPlayerJoined (in long roomID);
+        void setRoundScore(in string username, in long score, in long roomID);
+        StringSequence getRound1Score(in long roomID);
+        StringSequence getRound2Score(in long roomID);
+        StringSequence getRound3Score(in long roomID);
+        StringSequence getRound4Score(in long roomID);
+        StringSequence getRound5Score(in long roomID);
+        StringSequence getRound6Score(in long roomID);
+        StringSequence getRound7Score(in long roomID);
+        void sendDone(in long roomID);
+        boolean checkGameDone (in long roomID);
+    };
+};
